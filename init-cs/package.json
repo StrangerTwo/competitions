@@ -1,0 +1,8 @@
+{
+  "author": "strangertwo <h.volhejn@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "dotnet run",
+    "build": "dotnet publish -c Release -r win10-x86 --output \"./build\" -p:PublishTrimmed=True -p:TrimMode=Link --self-contained true"
+  }
+}
