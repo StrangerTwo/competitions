@@ -1,0 +1,20 @@
+{
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.ts -e ts",
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "inquirer": "^9.1.5",
+    "inquirer-file-path": "^1.0.1",
+    "jimp": "^0.22.7",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.0.6",
+    "typescript": "^4.7.4"
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jan Volhejn</title>
+  </head>
+  <body>
+    <div class="flex flex-col h-screen w-screen">
+      <div id="app" class="w-full grow flex self-center flex-col justify-center items-center">
+        <h1 class="mb-10">Maturita 2023 - Jan Volhejn</h1>
+      
+        <div class="flex w-full justify-center gap-8 p-5" id="content">
+          <div class="max-w-sm h-fit rounded overflow-hidden shadow-inner hover:drop-shadow-lg px-6 py-4 bg-gray-100" id="start">
+            <button
+              id="btn-1"
+              type="button"
+              class="block bg-green-600 hover:bg-green-500 text-white hover:text-white focus:outline-0 font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-600 rounded">
+              Úkol 3
+            </button>
+          </div>
+          <div id="tooltip">
+            
+          </div>
+          <div class="w-full max-w-2xl h-full rounded overflow-hidden shadow-inner hover:drop-shadow-lg bg-gray-100"  id="output">
+            <svg width="100" height="100" id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            </svg>
+
+          </div>
+        </div>
+      </div>
+      
+      <div class="rounded-md m-4 px-3 py-5 text-xl font-bold bottom-2 left-2 right-2 text-center bg-gray-300">
+        Jan Volhejn © 2023
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
