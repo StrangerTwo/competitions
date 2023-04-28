@@ -1,0 +1,10 @@
+Bludiste05 Slova mohou byt kratka 1 pismeno a byt jich hodne,2 slova nedostupna 
+############################# 
+#A#C#E#G# #C#I#K#M#N#O#Q# #A# 
+# B D F H  h  J L    P    #b# 
+####### # # # # # # # # # #e# 
+ Cela#                    #c# 
+####### # # # # # # # # # #e# 
+#  R S T U V W X Y Z      #d# 
+# # # # # # # # # # # # # #a# 
+#############################
