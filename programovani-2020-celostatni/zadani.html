@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <title>Pac-Man</title>
+    <style>
+  q:lang(cs) { quotes: '„' '“';  }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Pac-Man</h1>
+    <h2 class="category">Kategorie programování</h2>
+    <h2 class="date">21. až 23. června 2019</h2>
+    <p class="contest">Soutěž v programování — 33. ročník</p>
+    <p>Celostátní kolo 2018/2019</p>
+</header>
+<p>
+    Naprogramujte upravenou hru Pac-Man, ve které hráč sbírá jídlo, obchází zdi, vyhýbá se bombám a snaží se dojít do
+    cíle dříve, než mu dojde všechna energie. Můžete také naprogramovat umělou inteligenci, která Pac-Mana sama dovede
+    bezpečnou cestou až do cíle.
+</p>
+<p>
+    Oproti klasické hře zde nejde o čas a navíc všichni duchové zmizeli! Hra se tím ovšem nestala lehčí, protože duchové
+    za sebou zanechali bomby. Ba co hůř, v naší variantě hry musí Pac-Man na každý krok vynaložit energii — a pokud mu
+    dojde energie dřív, než dojde do cíle, je to <i>game over</i>. Dokážete Pac-Mana přesto provést bludištěm?
+</p>
+<h3>Pravidla hry</h3>
+<p>Upravený Pac-Man je tahová hra. Pac-Man začíná na své počáteční pozici s počátečním množstvím energetických jednotek
+    a jeho úkolem je projít bludištěm do cíle. V každém tahu se
+    pohne vodorovně nebo svisle o jedno políčko, což ho stojí 1 energetickou jednotku a pak se provede efekt políčka, na
+    které Pac-Man vstoupil. Pokud i poté má Pac-Man stále alespoň 1 energii, tak následuje další tah.  Pokud ale má
+    Pac-Man poté 0 nebo méně energie, není-li v cíli, hra končí neúspěchem.
+</p>
+Efekty políček:
+<ul>
+    <li><b>Jídlo (energetická hodnota 1–9).</b> Když na toto políčko Pac-Man poprvé vstoupí, sežere ho a získá tak daný
+        počet energetických jednotek. <i>(Jídlo tedy zmizí.)</i>
+    </li>
+    <li><b>Bomba (síla výbuchu 1–9 nebo <i>smrtící</i>).</b> Když sem Pac-Man poprvé vstoupí, bomba vybuchne a Pac-Man ztratí tolik
+        energie navíc, kolik je její síla výbuchu. Pokud je bomba <i>smrtící</i>, Pac-Mana zabije bez ohledu na to, kolik má energie.
+    </li>
+    <li><b>Zeď (výška 1–9 nebo <i>nekonečná</i>).</b> Pac-Man na zeď musí vyšplhat, což stojí dost energie. Při vstupu sem zaplatí Pac-Man tolik energetických jednotek navíc, kolik je výška zdi. Zeď může být i <i>nekonečně vysoká</i>, to znamená, že je absolutně neprůchodná. Na rozdíl od jídla a bomby, zeď z mapy nikdy nezmizí. Když se na políčko se zdí chce Pac-Man vrátit, musí na ni vylézt znovu. <i>(Zeď je druh políčka, není mezi políčky.)</i>
+    </li>
+</ul>
+<p>
+    Počáteční a cílové políčko jsou vždy volná políčka — není na nich jídlo, zeď ani bomba.
+</p>
+<p>
+    Skladba tahu tedy je:
+</p>
+<ol>
+    <li>Pac-Man se pohne o 1 políčko doleva, doprava, nahoru nebo dolů.</li>
+    <li>Pac-Man ztratí 1 energetickou jednotku za pohyb <i>(a to i tehdy, když vylézá na zeď)</i>.</li>
+    <li>Provede se efekt políčka, kam Pac-Man vstoupil. Pokud je Pac-Man v cíli, hra končí jeho výhrou.</li>
+    <li>Pokud má nyní Pac-Man 0 nebo méně energie, hra končí.</li>
+    <li>Jinak pokračujeme dalším tahem.</li>
+</ol>
+<h3>Povinná část <i>(70 bodů)</i></h3>
+Dovolte uživateli vybrat soubor s hracím plánem, načtěte ho a zobrazte ho na obrazovce. Váš program musí podporovat
+<q>textový formát</q> nebo formát JSON. Nemusí podporovat oba formáty, ale získáte více bodů, pokud budete podporovat formát JSON. Připomínáme, že máte právo stáhnout z internetu knihovnu pro práci s JSON soubory. Pokud podporujete JSON, je pak už zbytečné podporovat i <q>textový formát</q>.
+<p>
+    V <q>textovém formátu</q> je na prvním řádku šířka a výška hracího plánu, na druhém řádku počáteční stav Pac-Mana, na
+    třetím řádku souřadnice cíle a na dalších N řádkách popis řádků hracího plánu:</p>
+    <pre>
+M,N
+x0,y0,e
+x1,y1
+řádek1
+řádek2
+...
+řádekN</pre>
+<p>
+    Ve formátu JSON má vstupní soubor tuto strukturu <i>(může mít jiné množství bílých znaků)</i>:</p>
+<pre>
+{
+    "SIRKA": M,
+    "VYSKA": N,
+    "START": { "X": x0, "Y": y0, "E": e },
+    "CIL":   { "X": x1, "Y": y1 },
+    "PLAN": [
+        "řádek1",
+        "řádek2",
+        ...
+        "řádekN"
+    ]
+}
+</pre>
+<p>
+    V obou formátech:
+<ul>
+    <li><b>M</b> je šířka hracího pole (počet čtverců ve vodorovném směru, nejvýše 20)</li>
+    <li><b>N</b> je výška hracího pole (nejvýše 20)</li>
+    <li><b>x0,y0</b> jsou souřadnice, na kterých Pac-Man začíná. Souřadnice se počítají z levého horního rohu tak, že
+        políčko úplně vlevo nahoře je 1,1.
+    </li>
+    <li><b>x1,y1</b> jsou souřadnice cíle</li>
+    <li><b>e</b> je množství energie Pac-Mana na začátku hry</li>
+    <li><b>řádek1..N</b> je popis políček daného řádku, políčka jsou oddělená čárkami
+        <ul>
+            <li><b>V</b> je prázdné políčko</li>
+            <li><b>J2</b> je políčko s jídlem o hodnotě 2 energetických jednotek</li>
+            <li><b>Z9</b> je zeď s výškou 9</li>
+            <li><b>Z</b> je nekonečně vysoká zeď</li>
+            <li><b>B7</b> je bomba se silou výbuchu 7</li>
+            <li><b>B</b> je smrtící bomba</li>
+        </ul>
+    </li>
+</ul>
+</p>
+<p>
+    Máte zaručeno, že validní vstupní soubor nebude mít nikdy větší pole než 20&times;20 políček.
+</p>
+<p>
+    Pokud byste například načetli tento soubor v textovém formátu:</p>
+<pre>
+4,3
+1,2,10
+4,3
+V,J3,J4,B2
+V,V,Z7,J1
+V,V,Z4,V
+</pre>
+<p>tak výsledek bude vypadat nějak takto:<br>
+<img src="SimpleMap.PNG" height="200px"><br>
+a Pac-Man začne s 10 energetickými jednotkami.
+</p>
+<p>
+    Hrací plán můžete znázornit podle vlastního uvážení, ale dodržte prosím tyto pokyny:
+<ul>
+    <li>Pac-Man je kruh.</li>
+    <li>Na políčku s jídlem, bombou nebo zdí se zobrazuje energetická hodnota, síla výbuchu nebo výška.</li>
+    <li>Pokud použijete ikonky pro znázornění jídla, bomby a zdi (za body navíc), můžete použít vzorové ikonky.</li>
+    <li>Pokud použijete barvy, prázdné políčko je bílé, jídlo zelené, zeď černá, bomba červená.</li>
+</ul>
+</p>
+<p>
+    Umožněte uživateli také načíst další soubor znovu bez nutnosti restartovat program.
+</p>
+
+<h3>Počítačová hra <i>(100 bodů)</i></h3>
+<p>
+    Umožněte hráči hrát tuto hru tak, že bude ovládat Pac-Mana skrz bludiště. Hra by měla zobrazovat aktuální energii Pac-Mana a aktualizovat jeho pozici a stav hracího
+    plánu po každém tahu. Hráč by se měl dozvědět, když hru prohraje nebo vyhraje. 
+</p>
+<p>
+    Ovládání by mělo být intuitivní, přijemné a dokumentované.
+</p>
+<p><b>Funkce navíc: Restart.</b> Umožněte taky hráči hru snadno restartovat, a to i poté, co prohrál. Restartování vrátí hru do stavu těsně po načtení mapy.
+</p> 
+<p>
+  <b>Funkce navíc: Ochrana před smrtelným pohybem.</b> Dovolte hráči v uživatelském rozhraní zapnout <q>bezpečný režim</q>. Pokud by se hráč v tomto režimu snažil s Pac-Manem vstoupit na políčko se zdí nebo bombou, ale zeď je nekonečně vysoká, bomba je smrtící nebo by energie Pac-Mana tímto pohybem klesla na -1 nebo méně, zabraňte tomuto pohybu — do takového políčka se hráči nepodaří vstoupit.
+</p>
+<p>
+    Pohyb Pac-Mana může být skokový, není ho třeba animovat.
+</p>
+<p>
+    Nezapomeňte, že programujete počítačovou hru. Hodnotí se i přívětivost ovládání, grafické zpracování a funkčnost
+    uživatelského rozhraní. Nezapomeňte na uživatelskou dokumentaci.
+</p>
+<h3>Umělá inteligence <i>(170 bodů)</i></h3>
+<p>
+    Naprogramujte umělou inteligenci, která najde cestu do cíle, při které ale Pac-Man přežije. Pokud se vám
+    to podaří, vykreslete cestu z počátečního políčka do cíle na obrazovku a zobrazte délku cesty. Pokud ne, upozorněte
+    uživatele, že se do cíle dojít nedá.
+</p>
+<p>
+    <b>Stupňovaná obtížnost.</b> Naprogramovat umělou inteligenci, která by si dobře poradila s bombami a jídlem i na větších mapách není úplně snadné. Dostanete body i tehdy, pokud zvládnete jen menší mapy, kde jsou jako překážky jen zdi.
+</p>
+<p>
+    <b>Bonus za nejkratší cestu.</b> Dostanete body navíc, pokud Pac-Man dojde do cíle nejkratší možnou cestou.
+</p>
+<p>
+    <b>Pokročilá varianta: Sběrač energie.</b> Kromě toho <b>navíc</b> můžete uživateli dát možnost vybrat, jestli chce
+    najít nejkratší cestu do cíle, anebo jestli by raději došel do cíle s největším možným množstvím energie. V této
+    variantě Pac-Man vyhraje jen tehdy, když se nebylo možné do cíle dostat s vyšším množstvím energie. V této variantě zobrazte kromě cesty také množství energie, které má Pac-Man po pohybu do cíle.
+</p>
+<h3>Dokumentace a přehlednost kódu <i>(10 bodů)</i></h3>
+Váš program by měl být intuitivní a dokumentovaný. Váš zdrojový kód by měl být přehledný a jeho složitější místa by měla
+být okomentována.
+    
+<h3>Poznámky</h3>
+Můžete použít standardní knihovnu vašeho programovací jazyka. Můžete také stáhnout a použít libovolné knihovny kromě knihoven algoritmů a datových struktur. Pokud si nejste jistí, externí knihovnu nepoužívejte nebo se zeptejte poroty.
+
+<p>Po skončení soutěže svoje řešení nahrajte do cloudu. Adresa je <a
+href="https://svp.proed.cz/">https://svp.proed.cz/</a>, přihlašovací
+údaje jste obdrželi na proužku papíru.</p>
+
+<p>Data ukládejte do již vytvořeného adresáře s vaším startovním
+číslem – jinam porota nevidí. Pokud vaše řešení sestává z několika
+málo souborů, můžete je uploadovat přímo. V opačné případě je prosím
+zabalte do formátu <code>.zip</code>.</p>
+
+<section pgm-audience="porota">
+    <BR>
+    <h3>Hodnocení</h3>
+    <table class="hodnoceni">
+        <thead>
+        <tr>
+            <th>Body</th>
+            <th>Za co</th>
+        </tr>
+        </thead>
+        <tbody>     <!-- Strukturu tto sti je poteba dodret, automaticky se z n generuj hodnotc tabulky v Excelu -->
+        <tr>
+            <td>Parsování</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>Zobrazení hracího plánu</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>Počítačová hra: Ovládání a herní smyčka</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>Počítačová hra: Fungování políček</td>
+        </tr>
+        <tr>
+            <td>20</td>
+            <td>Počítačová hra: Nenarážení do zdi</td>
+        </tr>
+        <tr>
+            <td>20</td>
+            <td>Počítačová hra: Vychytávky a absence bugů</td>
+        </tr>
+        <tr>
+            <td>50</td>
+            <td>Umělá inteligence: Nalezení cesty a její zobrazení</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Umělá inteligence: +najde nejkratší cestu</td>
+        </tr>
+        <tr>
+            <td>20</td>
+            <td>Umělá inteligence: +bomby</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>Umělá inteligence: +jídlo</td>
+        </tr>
+        <tr>
+            <td>30</td>
+            <td>Umělá inteligence: Mód "sběrač energie"</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Umělá inteligence: Neexistující cesta</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+</body>
+</html>
