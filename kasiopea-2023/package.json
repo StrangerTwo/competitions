@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "A": "nodemon A/index.ts",
+    "B": "nodemon B/index.ts",
+    "C": "nodemon C/index.ts",
+    "D": "nodemon D/index.ts",
+    "E": "nodemon E/index.ts",
+    "F": "nodemon F/index.ts",
+    "G": "nodemon G/index.ts"
+  },
+  "dependencies": {
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.4.8",
+    "typescript": "5.1.6"
+  }
+}
